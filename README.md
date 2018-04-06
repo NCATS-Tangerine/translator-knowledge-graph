@@ -6,7 +6,7 @@ teams currently use graph databases (Neo4j, RDF triple stores (e.g. Wikidata), c
 accessing, persisting and annotating knowledge subgraphs (concept nodes and edges) retrieved by queries. The Translator team have therefore
 recently converged on a proposal to develop a Translator-wide shared standards-driven knowledge graph.
 
-This project serves as a hub for the collaboration, design and prototyping of such a Translator Knowledge Graph (TKG) resource.
+This project serves as a hub for the collaboration, design and prototyping of such a Translator Knowledge Graph (TKG) resource.  In addition to this README, we are using the [project repository wiki](https://github.com/NCATS-Tangerine/translator-knowledge-graph/wiki) to document design discussions and cross link with resources.
 
 # Getting Started
 
