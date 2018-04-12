@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <projectDescription>
-	<name>translator-knowledge-graph</name>
-	<comment></comment>
+	<name>database</name>
+	<comment>Project database created by Buildship.</comment>
 	<projects>
 	</projects>
 	<buildSpec>

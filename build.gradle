@@ -1,0 +1,151 @@
+// NCATS Translator Knowledge Graph Meta-Project Root Build File
+
+ext {
+	gradleVersion            = '4.6'
+	apacheHTTPClientVersion  = '4.5.2'
+	springVersion            = '5.0.4.RELEASE'
+	jacksonXmlVersion        = '2.9.4'
+	logbackCoreVersion       = '1.2.3'
+	springBootVersion        = '2.0.0.RC1'
+	springDataVersion        = 'Kay-SR3'
+	springDataNeo4jVersion   = '5.0.4.RELEASE'
+	springNeo4jVersion       = '3.3.3'
+	springNeo4jOGMVersion    = '3.0.3'
+	springfoxSwaggerVersion  = '2.5.0'
+}
+
+buildscript {
+    ext {
+        springBootVersion = '2.0.0.RC1'
+        springDependencyMgmtVersion = '1.0.4.RELEASE'
+    }
+    repositories {
+        mavenCentral()
+        maven { url "https://repo.spring.io/libs-release" }
+		maven { url 'https://repo.spring.io/libs-milestone' }
+        maven { url "https://plugins.gradle.org/m2/" }
+    }
+    dependencies {
+        classpath("org.springframework.boot:spring-boot-gradle-plugin:$springBootVersion") 
+        classpath("io.spring.gradle:dependency-management-plugin:$springDependencyMgmtVersion")
+        classpath("com.eriwen:gradle-css-plugin:2.14.0")
+    }
+}
+
+allprojects {
+	
+	// Translator Knowledge Graph
+	version = '0.0.1'
+	 
+    apply plugin: 'maven'
+    apply plugin: 'java'
+    apply plugin: 'eclipse-wtp'
+    apply plugin: 'io.spring.dependency-management'
+		
+	group = 'bio.knowledge.tkg'
+	
+	sourceCompatibility = 1.8
+	targetCompatibility = 1.8
+    
+    repositories {
+	    mavenCentral()
+	    mavenLocal()
+	    maven { url "https://repo.spring.io/libs-release" }
+	    maven { url 'https://repo.spring.io/libs-milestone' }
+	    maven { url 'https://repo.spring.io/libs-snapshot' }
+	    maven { url "https://m2.neo4j.org" }
+	    maven { url "http://mvnrepository.com/" }
+    }
+    
+        uploadArchives {
+	    repositories {
+	        mavenDeployer {
+	            pom {
+	                project {
+	                    parent {
+	                        groupId "org.springframework.boot"
+	                        artifactId "spring-boot-starter-parent"
+	                        version "$springBootVersion"
+	                    }
+	                }
+	            }
+	        }
+	    }
+	}
+	
+    dependencies {
+    
+    	compile "commons-collections:commons-collections:3.2"
+		compile 'org.apache.commons:commons-lang3:3.4'
+		compile "org.apache.httpcomponents:httpclient:$apacheHTTPClientVersion"
+				
+		compile "com.fasterxml.jackson.core:jackson-core:$jacksonXmlVersion"
+		compile "com.fasterxml.jackson.core:jackson-annotations:$jacksonXmlVersion"
+		compile "com.fasterxml.jackson.core:jackson-databind:$jacksonXmlVersion"
+		
+		compile "com.fasterxml.jackson.dataformat:jackson-dataformat-yaml:$jacksonXmlVersion"
+				
+		compile "ch.qos.logback:logback-core:$logbackCoreVersion"
+		compile "ch.qos.logback:logback-classic:$logbackCoreVersion"
+		compile "ch.qos.logback:logback-access:$logbackCoreVersion"
+
+    	compile "org.springframework:spring-core:$springVersion"
+    	compile "org.springframework:spring-context:$springVersion"
+    	compile "org.springframework:spring-context-support:$springVersion"
+    	compile "org.springframework:spring-aop:$springVersion"
+    	compile "org.springframework:spring-beans:$springVersion"
+    	compile "org.springframework:spring-expression:$springVersion"
+    	compile "org.springframework:spring-test:$springVersion"
+    	compile "org.springframework:spring-tx:$springVersion"
+    	compile "org.springframework:spring-web:$springVersion"
+    	compile "org.springframework:spring-webmvc:$springVersion"
+		
+		testCompile 'junit:junit:4.12'
+    }
+    
+	dependencyManagement {
+		imports { 
+			//mavenBom "org.springframework.cloud:spring-cloud-starter-parent:Angel.SR3" 
+			mavenBom "org.springframework:spring-framework-bom:${springVersion}"
+			mavenBom "org.springframework.data:spring-data-releasetrain:${springDataVersion}"
+		}
+	}
+	
+    jar {
+        from sourceSets.main.allSource
+        manifest.attributes provider: 'STAR Informatics'
+    }
+}
+    
+dependencies {
+    compile project(':database')
+}
+
+configurations {
+    providedRuntime
+    all*.exclude group: '', module: 'servlet-api'
+}
+
+configurations.all {
+    resolutionStrategy.eachDependency {
+        if(it.requested.name == 'org.objectweb.asm') {
+            it.useTarget 'org.ow2.asm:asm:5.0.3'
+        }
+    }
+}
+
+eclipse {
+    classpath {
+         containers.remove('org.eclipse.jdt.launching.JRE_CONTAINER')
+         containers 'org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.8'
+    }
+}
+
+task wrapper(type: Wrapper) {
+    gradleVersion = "$gradleVersion"
+}
+
+project(':database') {
+	archivesBaseName  = 'translator-knowledge-graph'
+	description       = 'Translator Knowledge Graph'
+}
