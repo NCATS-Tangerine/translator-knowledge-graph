@@ -23,16 +23,4 @@ The design of the TKG can be seen at three levels:
 
 # Exploratory Software Implementations
 
-## Reference Beacon Prototype
-
-The [Reference Knowledge Beacon ("RKB")](https://rkb.ncats.io) is a [Java language implementation](https://github.com/NCATS-Tangerine/reference-beacon) of the 
-[Translator Knowledge Beacon API](https://github.com/NCATS-Tangerine/translator-knowledge-beacon) which wraps a Neo4j database
-containing a substantial version (circa June 2016 release) of the Semantic Medline Database (plus some additional drug-disease)
-relational statements, with associated evidence.  
-
-A set of batch loading scripts is available which can be used to batch load additional
-data into the database.  The RKB beacon code itself is parameterized to point to any installation of Neo4j, hence, could be used, 
-with some modifications (e.g. mapping of semantic fields to the biolink model), as one starting point to create a prototype of the TKG. Design discussions on how to evolve the RKB into a prototype TKG are documented [here](https://github.com/NCATS-Tangerine/translator-knowledge-graph/wiki/Reference-Knowledge-Beacon-as-Prototype-TKG).
-
-The RKB beacon code is already designed for Docker deployment.
-
+* A prototype version of the TKG is being developed, as described in the [project repository wiki](https://github.com/NCATS-Tangerine/translator-knowledge-graph/wiki/Reference-Knowledge-Beacon-as-Prototype-TKG) and in the [database folder](https://github.com/NCATS-Tangerine/translator-knowledge-graph/database/README.md) of the TKG project.

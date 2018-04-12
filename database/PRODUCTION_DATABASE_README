@@ -1,4 +1,5 @@
-All below exercise and observations are done on neo4j-3_0_3 community version.
+Note: The exercise and observations were developed using neo4j-3_0_3 community version
+(TODO: validate these instructions against Neo4j 3.3.4)
 
 ##Prerequisites for production dataloading##
 
@@ -37,7 +38,10 @@ After changing "ulimit", restart neo4j server in new session.
 
 Some CSV input files may be ill formed and crash a CSV input process. For example, embedded single (') or double quotes ("),
 will cause problems. We need to replace that with single quote(') as neo4j csv loader will throw error on loading text 
-with double quote ("). For example "semmeddb_concept.txt", "semmeddb_sentence.txt" and "semmeddb_sentence_predication.txt" contains (") which can be verified and replaced using below command.
+with double quote ("). 
+
+For example "semmeddb_concept.txt", "semmeddb_sentence.txt" and "semmeddb_sentence_predication.txt" 
+may contain (") which can be verified and replaced using below command.
 
 Command :
 	for checking 
@@ -45,9 +49,9 @@ Command :
 	for replacing 
 		sed -e -i "s/\"\'/g" ./filename
 
-Alternately, the available Python script kb3_V5_preprocessor.py fixes this and other formatting rough edges to input data.
+Alternately, an available Python script datapreprocessor.py fixes this and other formatting rough edges to input data.
 
-Now, follow DATALOADING_R3_README.md to run input CQL script(s)
+Now, follow DATALOADING.md to run input CQL script(s)
 		
 ##Post processing for production database##
 
