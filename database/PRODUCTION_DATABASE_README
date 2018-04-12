@@ -1,0 +1,74 @@
+All below exercise and observations are done on neo4j-3_0_3 community version.
+
+##Prerequisites for production dataloading##
+
+1. Allocate enough heap memory by modifying neo4j-wrapper.conf. Based on system configuration specify in range of 4000-16000 MB, Keep initial and max size same to avoid GC overhead. 
+	
+	dbms.memory.heap.initial_size=8000
+	dbms.memory.heap.max_size=8000
+	
+2. Allocate enough pagecache by modifying below property in "/etc/neo4j/neo4j.conf"
+	dbms.memory.pagecache.size=8g
+
+Basically, system RAM should be divided and allocated by below thumb rule
+	
+	Total RAM = Heap Memory + PageCache + OS RAM (2-4 GB)
+
+Example : In case of 16 GB RAM, allocate heap = 8 gb, pageCache = 6gb and 2 GB for OS. Read neo4j manual for memory tuning and more clarification.
+
+3. Turn off logging if disk space is limited, as it will generate and keep lot of transaction logs
+   Set below property in "/etc/neo4j/neo4j.conf" to false  
+   
+   dbms.tx_log.rotation.retention_policy=false
+   
+4. While starting neo4j server, make sure you should not get below warning "Neo4j WARNING: Max 1024 open files allowed, minimum of 40 000 recommended. See the Neo4j manual" 
+
+In linux, run "ulimit -n" command to check how many files can be opened, if it is 1024 then change it to allow opening 40000 files.
+
+Solution : http://stackoverflow.com/questions/20924596/neo4j-warning-max-1024-open-files-allowed-minimum-of-40-000-recommended-see-t
+
+After changing "ulimit", restart neo4j server in new session.
+
+5. With default configuration Neo4j only accepts local connections. To accept non-local connections, uncomment this line:
+
+	dbms.connectors.default_listen_address=0.0.0.0
+
+##Troubleshooting Input Data Loading##
+
+Some CSV input files may be ill formed and crash a CSV input process. For example, embedded single (') or double quotes ("),
+will cause problems. We need to replace that with single quote(') as neo4j csv loader will throw error on loading text 
+with double quote ("). For example "semmeddb_concept.txt", "semmeddb_sentence.txt" and "semmeddb_sentence_predication.txt" contains (") which can be verified and replaced using below command.
+
+Command :
+	for checking 
+			grep '\"' ./filename
+	for replacing 
+		sed -e -i "s/\"\'/g" ./filename
+
+Alternately, the available Python script kb3_V5_preprocessor.py fixes this and other formatting rough edges to input data.
+
+Now, follow DATALOADING_R3_README.md to run input CQL script(s)
+		
+##Post processing for production database##
+
+1. Stop DB server.
+
+2. Basically to scale up readability of this application, we need to have enough page cache and heap memory. According to neo4j documentation, pagecache should by 120 % of "*.neostore.*.db" size (check content under neoInstalllocation/data/databases/graph.db/)
+Our *.neostore.*.db is  approx. 100 GB, so allocated 120 GB of pagecache by modifying below property in "neo4j.conf" file.
+
+	dbms.memory.pagecache.size=120g
+
+3. To support multiple concurrent user, allocate minimum of 16 gb of heap memory by modifying below properties in "neo4j-wrapper.conf"
+
+ 	dbms.memory.heap.initial_size=16000
+	dbms.memory.heap.max_size=16000
+	
+4. Start DB server.
+
+3. First, warm up page cache by running below neo4j query as it will bring all neo4j nodes, relations and properties in RAM and make subsequent queries faster.
+
+	MATCH (n)
+	OPTIONAL MATCH (n)-[r]->()
+	RETURN count(n) + count(r);
+	
+Reference :https://neo4j.com/developer/kb/warm-the-cache-to-improve-performance-from-cold-start/
