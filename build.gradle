@@ -118,7 +118,7 @@ allprojects {
 }
     
 dependencies {
-    compile project(':database')
+    compile project(':rkb_prototype')
 }
 
 configurations {
@@ -145,7 +145,7 @@ task wrapper(type: Wrapper) {
     gradleVersion = "$gradleVersion"
 }
 
-project(':database') {
-	archivesBaseName  = 'translator-knowledge-graph'
-	description       = 'Translator Knowledge Graph'
+project(':rkb_prototype') {
+	archivesBaseName  = 'rkb_translator-knowledge-graph'
+	description       = 'RKB Prototype of Translator Knowledge Graph'
 }
