@@ -8,3 +8,13 @@ This system of scripts assumes independent loading of a small number of files:
 
 1. *Concepts:* the file containing the identification and semantic details of the concepts being loaded (as nodes) into the TKG. Concept types are assumed to be based on the [Biolink Model](https://github.com/biolink/biolink-model).
 2. *Statements:* the file containing the subject concept - predicate - object concept - evidence assertions of the TKG. Predicates used are also drawn from the the [Biolink Model](https://github.com/biolink/biolink-model). 
+
+# Concept File Format
+
+The RKB legacy concepts.tsv has the following columns:
+
+* qid - is the object id of a WikiData entity
+* semantic_groups - the UMLS Semantic Group
+* preflabel
+* synonyms
+* definition
