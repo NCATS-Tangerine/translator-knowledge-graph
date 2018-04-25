@@ -1,7 +1,6 @@
-# Data Loading Scripts
+# RKB-Adapted Data Loading Scripts
 
-This folder contains Cypher data loading scripts adapted from the RKB for possible use in loading the prototype 
-TKG using a standard flat file TSV format. Here we provide a basic synopsis of these scripts and the associated TSV input files.
+This folder contains Cypher data loading scripts adapted from the (circa Knowledge.Bio 3.0 era) RKB for possible use in loading the prototype  TKG using a standard flat file TSV format. Here we provide a basic synopsis of these scripts and the associated TSV input files.
 
 # TSV Input Files
 
