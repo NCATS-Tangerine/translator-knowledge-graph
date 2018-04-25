@@ -23,4 +23,4 @@ The design of the TKG can be seen at three levels:
 
 # Exploratory Software Implementations
 
-* A prototype version of the TKG is being developed, as described in the [project repository wiki](https://github.com/NCATS-Tangerine/translator-knowledge-graph/wiki/Reference-Knowledge-Beacon-as-Prototype-TKG) and in the [rkb_prototype folder](https://github.com/NCATS-Tangerine/translator-knowledge-graph/rkb_prototype/README.md) of the TKG project.
+* A prototype version of the TKG is being developed, as described in the [project repository wiki](https://github.com/NCATS-Tangerine/translator-knowledge-graph/wiki/Reference-Knowledge-Beacon-as-Prototype-TKG) and in the [database folder](https://github.com/NCATS-Tangerine/translator-knowledge-graph/database/README.md) of the TKG project.
